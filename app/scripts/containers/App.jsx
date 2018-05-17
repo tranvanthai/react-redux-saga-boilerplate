@@ -10,7 +10,7 @@ import RoutePublic from 'modules/RoutePublic';
 import RoutePrivate from 'modules/RoutePrivate';
 
 import config from 'config';
-import { showAlert } from 'actions';
+import { showAlert, closeMenu } from 'actions';
 
 import Home from 'routes/Home';
 import Private from 'routes/Private';
@@ -19,6 +19,7 @@ import NotFound from 'routes/NotFound';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import SystemAlerts from 'components/SystemAlerts';
+import ReactDrawer from 'react-drawer';
 
 export class App extends React.Component {
   static propTypes = {
@@ -26,6 +27,10 @@ export class App extends React.Component {
     dispatch: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
   };
+  constructor(props) {
+    super(props);
+    this.onDrawerClose = this.onDrawerClose.bind(this);
+  }
 
   componentWillReceiveProps(nextProps) {
     const { dispatch, user } = this.props;
@@ -34,7 +39,12 @@ export class App extends React.Component {
     /* istanbul ignore else */
     if (!user.isAuthenticated && nextUser.isAuthenticated) {
       dispatch(showAlert('Hello! And welcome!', { type: 'success', icon: 'i-trophy' }));
+      
     }
+  }
+
+  onDrawerClose() {
+    this.props.dispatch(closeMenu());
   }
 
   render() {
@@ -55,15 +65,23 @@ export class App extends React.Component {
             titleTemplate={`%s | ${config.name}`}
             titleAttributes={{ itemprop: 'name', lang: 'pt-br' }}
           />
-          {user.isAuthenticated && <Header dispatch={dispatch} user={user} />}
+          <Header dispatch={dispatch} user={user} />
           <main className="app__main">
             <Switch>
               <RoutePublic isAuthenticated={user.isAuthenticated} path="/" exact component={Home} />
               <RoutePrivate isAuthenticated={user.isAuthenticated} path="/private" component={Private} />
               <Route component={NotFound} />
             </Switch>
+            <ReactDrawer
+              open={this.props.app.open}
+              position="left"
+              onClose={this.onDrawerClose}
+              noOverlay={false}>
+              <h2>What a nice drawer !</h2>
+            </ReactDrawer>
           </main>
           <Footer />
+          
           <SystemAlerts alerts={app.alerts} dispatch={dispatch} />
         </div>
       </ConnectedRouter>

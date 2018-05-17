@@ -28,7 +28,7 @@ export class Home extends React.PureComponent {
         <div className="app__container">
           <div className="app__home__wrapper">
             <div className="app__home__header">
-              <Logo />
+              <Logo dispatch={this.props.dispatch}/>
             </div>
             <h1>{config.description}</h1>
             <a

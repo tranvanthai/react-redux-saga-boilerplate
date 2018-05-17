@@ -23,6 +23,20 @@ export function hideAlert(id: string): Object {
   };
 }
 
+export function showMenu(): Object {
+  return {
+    type: ActionTypes.SHOW_MENU,
+    payload: {},
+  };
+}
+
+export function closeMenu(): Object {
+  return {
+    type: ActionTypes.HIDE_MENU,
+    payload: {},
+  };
+}
+
 /**
  * Show an alert.
  *

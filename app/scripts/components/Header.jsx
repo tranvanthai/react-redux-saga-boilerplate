@@ -17,10 +17,11 @@ export default class Header extends React.PureComponent {
   };
 
   render() {
+    const { dispatch } = this.props;
     return (
       <header className="app__header">
         <div className="app__container">
-          <Logo />
+          <Logo dispatch={dispatch}/>
           <div className="app__header__menu">
             <ul className="list-unstyled">
               <li>

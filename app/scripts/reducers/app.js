@@ -6,6 +6,7 @@ import { ActionTypes } from 'constants/index';
 
 export const appState = {
   alerts: [],
+  open: false,
 };
 
 export default {
@@ -25,6 +26,18 @@ export default {
     [ActionTypes.SHOW_ALERT](state, { payload }) {
       return immutable(state, {
         alerts: { $push: [payload] },
+      });
+    },
+    [ActionTypes.SHOW_MENU](state) {
+      return immutable(state, {
+        alerts: { $set: [] },
+        open: { $set: true },
+      });
+    },
+    [ActionTypes.HIDE_MENU](state) {
+      return immutable(state, {
+        alerts: { $set: [] },
+        open: { $set: false },
       });
     },
   }),
